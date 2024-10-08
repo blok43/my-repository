@@ -33,6 +33,20 @@ function checkTime(i) {
 <body onload="startTime()">
 
 <div id="txt"></div>
-    
+
+import requests
+from bs4 import BeautifulSoup
+
+def retrieve_page(url):
+    dta = requests.get(url).text
+    soup = BeautifulSoup(dta)
+    price = soup.find_all(class_=["col-price", "invalid-symbol"])
+    price = [next(x.strings) for x in price]
+    # fix up ': '
+    price = [x.replace(': ','') for x in price]
+    print(price)
+
+retrieve_page("http://finance.yahoo.com/quotes/AAPL,GOOG,NVDA")
+  
     </body>
 </html>
